@@ -8,11 +8,14 @@ public class PlayerMovement : MonoBehaviour
 
 {
 
-    [Range(0.4f,0.8f)] public float moveSpeed = 5f;
+    
+
+    public float moveSpeed = 5f;
 
     public float jumpForce = 10f;
+    public float hitForce = 10f;
 
-    private Rigidbody rb;
+    public Rigidbody rb;
  
 
     public GameObject rightTrigger, leftTrigger;
@@ -20,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
 
     public bool isFacingRight;
-    [SerializeField] private KeyCode AttackKey = KeyCode.DownArrow;
+    [SerializeField] private KeyCode AttackKey = KeyCode.E;
     void Start()
 
     {
@@ -42,23 +45,32 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if (rightTrigger.GetComponent<AttackTrigger>().canAttack || leftTrigger.GetComponent<AttackTrigger>().canAttack)
+        this.transform.position = new Vector3(69.16888f, this.transform.position.y, this.transform.position.z);
+
+        if (rightTrigger.GetComponent<AttackTrigger1>().canAttack || leftTrigger.GetComponent<AttackTrigger1>().canAttack)
         {
             if (Input.GetKeyDown(AttackKey))
             {
-                FindObjectOfType<PlayerMovement2>().GetComponent<AttributesManager>().health -= this.GetComponent<AttributesManager>().attack;
+                FindObjectOfType<EnemyMovement>().GetComponent<AttributesManager>().health -= this.GetComponent<AttributesManager>().attack;
+
+                if (rightTrigger.GetComponent<AttackTrigger1>().canAttack)
+                    FindObjectOfType<EnemyMovement>().GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * hitForce, ForceMode.Impulse);
+           
+                if (leftTrigger.GetComponent<AttackTrigger1>().canAttack)
+                    FindObjectOfType<EnemyMovement>().GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * hitForce, ForceMode.Impulse);
+           
             }
         }
 
         // Move forward
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D))
 
         {
-            foreach(AttackTrigger trigger in FindObjectsOfType<AttackTrigger>())
+            foreach(AttackTrigger1 trigger in FindObjectsOfType<AttackTrigger1>())
                 if (trigger.name == "leftTrigger") trigger.canAttack = false;
             isFacingRight = true;
-            GetComponent<CharacterController>().Move((transform.position + transform.forward) * moveSpeed * Time.deltaTime);
+            rb.MovePosition(transform.position + transform.forward * moveSpeed * Time.deltaTime);
 
         }
         if(isFacingRight){
@@ -71,21 +83,21 @@ public class PlayerMovement : MonoBehaviour
         }
         // Move backward
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.A))
 
         {
-            foreach(AttackTrigger trigger in FindObjectsOfType<AttackTrigger>())
+            foreach(AttackTrigger1 trigger in FindObjectsOfType<AttackTrigger1>())
                 if (trigger.name == "rightTrigger") trigger.canAttack = false;
 
 
             isFacingRight = false;
-            GetComponent<CharacterController>().Move((transform.position - transform.forward) * moveSpeed * Time.deltaTime);
+            rb.MovePosition(transform.position - transform.forward * moveSpeed * Time.deltaTime);
 
         }
 
         // Jump
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.W) && IsGrounded())
 
         {
 
@@ -94,9 +106,10 @@ public class PlayerMovement : MonoBehaviour
         }
         if(GetComponent<AttributesManager>().health <= 0)
         {
-            Debug.Log("<color=red>Player1 has died!");
-            Destroy(GetComponent<PlayerMovement>().gameObject);
+            Debug.Log("Enemy has died!");
+            Destroy(FindObjectOfType<PlayerMovement>().gameObject);
             this.enabled = false;
+
         }
     }
 

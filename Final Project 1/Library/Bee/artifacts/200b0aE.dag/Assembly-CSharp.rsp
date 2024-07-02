@@ -359,8 +359,10 @@
 "Assets/Scripts/AttackTrigger1.cs"
 "Assets/Scripts/AttributesManager.cs"
 "Assets/Scripts/DamageTester.cs"
+"Assets/Scripts/Dash.cs"
+"Assets/Scripts/EnemyMovement.cs"
 "Assets/Scripts/PlayerMovement.cs"
-"Assets/Scripts/PlayerMovement2.cs"
+"Assets/Scripts/WallBounce.cs"
 -langversion:9.0
 
 /deterministic
