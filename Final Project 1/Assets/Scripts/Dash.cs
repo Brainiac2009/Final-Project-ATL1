@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Dash : MonoBehaviour
@@ -8,60 +7,100 @@ public class Dash : MonoBehaviour
     EnemyMovement moveScriptEnemy;
 
     public float dashSpeed;
-
     public float dashTime;
-
     public bool isPlayer1;
+    public AudioClip DashSound;
+    public AudioSource SoundObject;
 
     // Start is called before the first frame update
     void Start()
     {
-        moveScript =isPlayer1 ? GetComponent<PlayerMovement>() : null;
-        moveScriptEnemy = !isPlayer1 ? GetComponent<EnemyMovement>() : null;
+        if (isPlayer1)
+        {
+            moveScript = GetComponent<PlayerMovement>();
+            if (moveScript == null)
+            {
+                Debug.LogError("PlayerMovement component not found on this GameObject.");
+            }
+        }
+        else
+        {
+            moveScriptEnemy = GetComponent<EnemyMovement>();
+            if (moveScriptEnemy == null)
+            {
+                Debug.LogError("EnemyMovement component not found on this GameObject.");
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S) && isPlayer1);  // Changed to GetMouseButtonDown for single click detection
+        if (Input.GetKeyDown(KeyCode.S) && isPlayer1)
         {
-            StartCoroutine(DashCoroutine());  // Updated method name to DashCoroutine to avoid confusion with class name
+            if (moveScript != null)
+            {
+                SoundObject.PlayOneShot(DashSound);
+
+                StartCoroutine(DashCoroutine());
+            }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && !isPlayer1);  // Changed to GetMouseButtonDown for single click detection
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !isPlayer1)
         {
-            StartCoroutine(DashCoroutine());  // Updated method name to DashCoroutine to avoid confusion with class name
+            if (moveScriptEnemy != null)
+            {
+                SoundObject.PlayOneShot(DashSound);
+                StartCoroutine(DashCoroutine());
+            }
         }
     }
 
-    IEnumerator DashCoroutine()  // Updated method name to DashCoroutine to avoid confusion with class name
+    IEnumerator DashCoroutine()
     {
         float startTime = Time.time;
 
-        while (Time.time < startTime + dashTime)  // Changed While to while
+        while (Time.time < startTime + dashTime)
         {
-            if (isPlayer1)
+            if (isPlayer1 && moveScript != null)
             {
-                if (moveScript.isFacingRight){
-                moveScript.GetComponent<CharacterController>().Move(new Vector3(0,0,1) * dashSpeed * Time.deltaTime);
-                }
-                else 
+                Rigidbody rb = moveScript.GetComponent<Rigidbody>();
+                if (rb != null)
                 {
-                    moveScript.GetComponent<CharacterController>().Move(new Vector3(0,0,-1) * dashSpeed * Time.deltaTime);
-
+                    if (moveScript.isFacingRight)
+                    {
+                        rb.AddForce(new Vector3(0,0,1) * dashSpeed,ForceMode.Impulse);
+                    }
+                    else
+                    {
+                        rb.AddForce(new Vector3(0,0,-1) * dashSpeed,ForceMode.Impulse);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("CharacterController component not found on this GameObject.");
                 }
             }
-            else
+            else if (moveScriptEnemy != null)
             {
-                if (moveScriptEnemy.isFacingRight){
-                    moveScriptEnemy.GetComponent<CharacterController>().Move(new Vector3(0,0,1) * dashSpeed * Time.deltaTime);
-                }
-                else 
+                Rigidbody rb = moveScriptEnemy.GetComponent<Rigidbody>();
+                if (rb != null)
                 {
-                    moveScriptEnemy.GetComponent<CharacterController>().Move(new Vector3(0,0,-1) * dashSpeed * Time.deltaTime);
-
+                    if (moveScriptEnemy.isFacingRight)
+                    {
+                        rb.AddForce(new Vector3(0,0,1) * dashSpeed,ForceMode.Impulse);
+                    }
+                    else
+                    {
+                        rb.AddForce(new Vector3(0,0,-1) * dashSpeed,ForceMode.Impulse);
+                    }
                 }
-                yield return null;  // Corrected 'yeild' to 'yield'
+                else
+                {
+                    Debug.LogError("CharacterController component not found on this GameObject.");
+                }
             }
+
+            yield return null;  // Ensure this is outside the if statements and inside the while loop
         }
     }
 }

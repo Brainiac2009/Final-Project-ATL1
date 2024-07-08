@@ -20,6 +20,13 @@ public class EnemyMovement : MonoBehaviour
 
     public GameObject rightTrigger, leftTrigger;
 
+    public GameObject rightHitVFX, leftHitVFX;
+
+    public AudioSource SoundObject;
+
+    public AudioClip HitSound;
+
+
     [SerializeField] private Transform groundCheck;
 
     public bool isFacingRight;
@@ -53,11 +60,25 @@ public class EnemyMovement : MonoBehaviour
             {
                 FindObjectOfType<PlayerMovement>().GetComponent<AttributesManager>().health -= this.GetComponent<AttributesManager>().attack;
 
-                if (rightTrigger.GetComponent<AttackTrigger>().canAttack)
+                if (rightTrigger.GetComponent<AttackTrigger>().canAttack){
+                    GameObject hitVFX = Instantiate(rightHitVFX, rightTrigger.GetComponent<Transform>());
+
+                    hitVFX.SetActive(true);
+                    SoundObject.PlayOneShot(HitSound);
+
                     FindObjectOfType<PlayerMovement>().GetComponent<Rigidbody>().AddForce(new Vector3(0,0,1) * hitForce, ForceMode.Impulse);
+                    }
            
-                if (leftTrigger.GetComponent<AttackTrigger>().canAttack)
+                if (leftTrigger.GetComponent<AttackTrigger>().canAttack){
+                    GameObject hitVFX = Instantiate(leftHitVFX, leftTrigger.GetComponent<Transform>());
+
+                    hitVFX.SetActive(true);
+                    SoundObject.PlayOneShot(HitSound);
+
+
                     FindObjectOfType<PlayerMovement>().GetComponent<Rigidbody>().AddForce(new Vector3(0,0,-1) * hitForce, ForceMode.Impulse);
+                    }
+
             }
         }
 

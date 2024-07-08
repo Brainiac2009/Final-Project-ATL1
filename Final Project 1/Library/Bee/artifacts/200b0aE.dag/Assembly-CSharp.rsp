@@ -363,6 +363,7 @@
 "Assets/Scripts/EnemyMovement.cs"
 "Assets/Scripts/PlayerMovement.cs"
 "Assets/Scripts/WallBounce.cs"
+"Assets/Travis Game Assets/Hit Impact Effects/Demo Scene/Scripts/HitImpactEffectsPreview.cs"
 -langversion:9.0
 
 /deterministic
