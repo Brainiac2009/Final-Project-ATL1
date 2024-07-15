@@ -52,7 +52,7 @@ public class EnemyMovement : MonoBehaviour
     }
     void Update()
     {
-        this.transform.position = new Vector3(69.16888f, this.transform.position.y, this.transform.position.z);
+        // this.transform.position = new Vector3( 133, this.transform.position.y, this.transform.position.z);
 
         if (rightTrigger.GetComponent<AttackTrigger>().canAttack || leftTrigger.GetComponent<AttackTrigger>().canAttack)
         {
@@ -126,7 +126,7 @@ public class EnemyMovement : MonoBehaviour
         }
         if(GetComponent<AttributesManager>().health <= 0)
         {
-            Debug.Log("Friend has died!");
+            Debug.Log("Enemy has died!");
             Destroy(FindObjectOfType<EnemyMovement>().gameObject);
             this.enabled = false;
 

@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
   - _EMISSION
+  - _NORMALMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
@@ -33,6 +34,6 @@ Material:
     - _Glossiness: 0
     - _Metallic: 1
     m_Colors:
-    - _Color: {r: 0, g: 0.95156765, b: 1, a: 1}
+    - _Color: {r: 0, g: 0.13331223, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0.15683964, b: 0.1792453, a: 1}
   m_BuildTextureStacks: []

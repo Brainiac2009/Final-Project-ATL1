@@ -11,6 +11,9 @@ public class Dash : MonoBehaviour
     public bool isPlayer1;
     public AudioClip DashSound;
     public AudioSource SoundObject;
+    public GameObject DashEffect;
+    public Transform LeftDashParent;
+    public Transform RightDashParent;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +44,6 @@ public class Dash : MonoBehaviour
             if (moveScript != null)
             {
                 SoundObject.PlayOneShot(DashSound);
-
                 StartCoroutine(DashCoroutine());
             }
         }
@@ -69,10 +71,20 @@ public class Dash : MonoBehaviour
                     if (moveScript.isFacingRight)
                     {
                         rb.AddForce(new Vector3(0,0,1) * dashSpeed,ForceMode.Impulse);
+                        GameObject dashEffect = Instantiate(DashEffect, RightDashParent);
+
+                        dashEffect.transform.position = LeftDashParent.transform.position;
+                        dashEffect.SetActive(true);
+                        Destroy(dashEffect,2);
                     }
                     else
                     {
                         rb.AddForce(new Vector3(0,0,-1) * dashSpeed,ForceMode.Impulse);
+                        GameObject dashEffect = Instantiate(DashEffect, LeftDashParent);
+
+                        dashEffect.transform.position = RightDashParent.transform.position;
+                        dashEffect.SetActive(true);
+                        Destroy(dashEffect,2);
                     }
                 }
                 else
@@ -88,10 +100,20 @@ public class Dash : MonoBehaviour
                     if (moveScriptEnemy.isFacingRight)
                     {
                         rb.AddForce(new Vector3(0,0,1) * dashSpeed,ForceMode.Impulse);
+                        GameObject dashEffect = Instantiate(DashEffect, RightDashParent);
+
+                        dashEffect.transform.position = LeftDashParent.transform.position;
+                        dashEffect.SetActive(true);
+                        Destroy(dashEffect,2);
                     }
                     else
                     {
                         rb.AddForce(new Vector3(0,0,-1) * dashSpeed,ForceMode.Impulse);
+                        GameObject dashEffect = Instantiate(DashEffect, LeftDashParent);
+
+                        dashEffect.transform.position = RightDashParent.transform.position;
+                        dashEffect.SetActive(true);
+                        Destroy(dashEffect,2);
                     }
                 }
                 else

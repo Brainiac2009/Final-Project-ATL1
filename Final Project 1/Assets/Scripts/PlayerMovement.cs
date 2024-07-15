@@ -52,13 +52,15 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        this.transform.position = new Vector3(69.16888f, this.transform.position.y, this.transform.position.z);
+        // this.transform.position = new Vector3(133, this.transform.position.y, this.transform.position.z);
 
         if (rightTrigger.GetComponent<AttackTrigger1>().canAttack || leftTrigger.GetComponent<AttackTrigger1>().canAttack)
         {
             if (Input.GetKeyDown(AttackKey))
             {
-                FindObjectOfType<EnemyMovement>().GetComponent<AttributesManager>().health -= this.GetComponent<AttributesManager>().attack;
+                FindObjectOfType<EnemyMovement>().GetComponent<AttributesManager>().TakeDamage(this.GetComponent<AttributesManager>().attack);
+
+
 
                 if (rightTrigger.GetComponent<AttackTrigger1>().canAttack){
                     GameObject hitVFX = Instantiate(rightHitVFX, rightTrigger.GetComponent<Transform>());
@@ -126,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(GetComponent<AttributesManager>().health <= 0)
         {
-            Debug.Log("Enemy has died!");
+            Debug.Log("Friend has died!");
             Destroy(FindObjectOfType<PlayerMovement>().gameObject);
             this.enabled = false;
 
