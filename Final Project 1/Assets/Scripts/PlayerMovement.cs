@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         bool isGrounded = false;
-        Collider[] hitColliders = Physics.OverlapSphere(groundCheck.transform.position, 1);
+        Collider[] hitColliders = Physics.OverlapSphere(groundCheck.transform.position, 2);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.name == "Ground") isGrounded = true;
