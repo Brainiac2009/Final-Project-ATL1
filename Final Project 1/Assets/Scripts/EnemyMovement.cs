@@ -20,6 +20,8 @@ public class EnemyMovement : MonoBehaviour
 
     public GameObject rightTrigger, leftTrigger;
 
+    public GameObject WINscreen;
+
     public GameObject rightHitVFX, leftHitVFX;
 
     public AudioSource SoundObject;
@@ -127,6 +129,7 @@ public class EnemyMovement : MonoBehaviour
         if(GetComponent<AttributesManager>().health <= 0)
         {
             Debug.Log("Enemy has died!");
+            WINscreen.SetActive(true);
             Destroy(FindObjectOfType<EnemyMovement>().gameObject);
             this.enabled = false;
 

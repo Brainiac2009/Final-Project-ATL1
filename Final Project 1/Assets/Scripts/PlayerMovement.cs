@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject rightTrigger, leftTrigger;
 
+    public GameObject WINscreen;
+
     public GameObject rightHitVFX, leftHitVFX;
 
     public AudioSource SoundObject;
@@ -129,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         if(GetComponent<AttributesManager>().health <= 0)
         {
             Debug.Log("Friend has died!");
+            WINscreen.SetActive(true);
             Destroy(FindObjectOfType<PlayerMovement>().gameObject);
             this.enabled = false;
 
